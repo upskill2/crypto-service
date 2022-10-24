@@ -10,7 +10,6 @@ class CryptoServiceApplicationTests {
 	void contextLoads() {
 
 
-
 	}
 
 }

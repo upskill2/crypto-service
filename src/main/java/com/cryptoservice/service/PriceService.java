@@ -1,65 +1,21 @@
 package com.cryptoservice.service;
 
-import com.cryptoservice.CryptoServiceApplication;
-import com.cryptoservice.controller.PricesRestClient;
 import com.cryptoservice.dao.AssetParams;
-import com.cryptoservice.utils.EnableDisableAlertOutput;
-import com.cryptoservice.utils.PricesCryptoOutput;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import com.cryptoservice.dao.entity.Asset;
 
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
-@Service
-public class PriceService {
+public interface PriceService {
 
-    @Autowired
-    private PricesRestClient pricesRestClient;
+    List<AssetParams> getAllCrypto();
 
-    @Autowired
-    private PricesRepository pricesRepository;
+    void saveAllCrypto(List<Asset> assets);
 
-    public PriceService() {
-    }
+    void saveCryptoById(AssetParams asset);
 
-    private CryptoServiceApplication getCryptoServiceApplication(){
-        return CryptoServiceApplication.contextProvider()
-                .getApplicationContext()
-                .getBean(CryptoServiceApplication.class);
-    }
+    Iterable<Asset> getAllFromRepo();
 
-    public ResponseEntity<AssetParams> getInformation() {
-        return pricesRestClient.getCryptoInformation();
-    }
+    Optional<AssetParams> getCryptoById(String ticker);
 
-    public ResponseEntity<AssetParams> getInformation(String id) {
-        return pricesRestClient.getCryptoInformationById(id);
-    }
-
-    public String enableDisableAlert(String id, double alertPrice, boolean enableDisable) {
-        pricesRepository.enableDisableAlert(enableDisable);
-        if(enableDisable)
-            initMonitoringOfPrice(alertPrice, id);
-        return new EnableDisableAlertOutput(enableDisable, new Date()).toString();
-    }
-
-    public String initMonitoringOfPrice(double alertPrice, String id) {
-        System.out.println("===> Monitoring price <===");
-        List<AssetParams> info = Arrays.asList(pricesRestClient.getCryptoInformation().getBody());
-        info.forEach(item->{
-            if(item.getPriceUsd() > alertPrice) {
-                alertUser(item.getPriceUsd(), id);
-            }
-        });
-        return info.toString();
-    }
-
-    private void alertUser(double alertPrice, String id) {
-        System.out.println("New price of "+id+" is "+alertPrice);
-
-    }
 }
