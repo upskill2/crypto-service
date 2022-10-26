@@ -15,8 +15,8 @@ import java.util.Optional;
 @Service
 public class PriceServiceImpl implements PriceService {
 
-    @Autowired
-    PricesRestClient pricesRestClient;
+/*    @Autowired
+    PricesRestClient pricesRestClient;*/
 
     @Autowired
     PricesCoinController pricesCoinController;
@@ -35,11 +35,11 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public List<AssetParams> getAllCrypto() {
-        return pricesRestClient.getCryptoInformation();
+        return pricesCoinController.getAvailableAssets();
     }
 
     @Override
-    public Optional<AssetParams> getCryptoById(String ticker) {
+    public AssetParams[] getCryptoById(String ticker) {
 
         return pricesCoinController.getAvailableAssetsById(ticker).getBody();
     }

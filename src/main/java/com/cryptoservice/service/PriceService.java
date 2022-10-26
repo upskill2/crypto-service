@@ -16,6 +16,6 @@ public interface PriceService {
 
     Iterable<Asset> getAllFromRepo();
 
-    Optional<AssetParams> getCryptoById(String ticker);
+    AssetParams[] getCryptoById(String ticker);
 
 }

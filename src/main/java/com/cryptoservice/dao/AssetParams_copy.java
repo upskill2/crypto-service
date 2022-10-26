@@ -11,11 +11,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AssetParams {
+public class AssetParams_copy {
 
-//    int id;
-
-    String asset_id; //"asset_id": "BTC",
+    String assetId; //"asset_id": "BTC",
 
     String name;// "name": "Bitcoin",
 

@@ -11,7 +11,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,6 +33,8 @@ class PricesRestClientTest {
 
     @Autowired
     RestTemplate restTemplate;
+
+    private final String URI_USERS_ID = "assets/{asset_id}";
 
 
     @Test
@@ -54,6 +58,11 @@ class PricesRestClientTest {
     @Test
     void setRestTemplate() {
 
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("asset_id", "1");
+
+//Parse the string after getting the response
+        String userStr = restTemplate.getForObject(URI_USERS_ID, String.class, params);
 
     }
 

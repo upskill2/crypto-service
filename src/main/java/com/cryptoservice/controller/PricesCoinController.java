@@ -5,12 +5,11 @@ import com.cryptoservice.dao.entity.Asset;
 import com.cryptoservice.service.PriceService;
 import com.cryptoservice.service.PriceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -19,30 +18,49 @@ import java.util.Optional;
 @RequestMapping("/v1")
 public class PricesCoinController {
 
-    static final String apiKey = "18BC8366-2892-4CBB-92AB-34F573C7C8E8";
+    private static final String apiKey = "18BC8366-2892-4CBB-92AB-34F573C7C8E8";
+
+    private static final String ID_ENDPOINT = "/assets/{asset_id}";
+
+/*    @Autowired
+    PriceService priceService;*/
 
     @Autowired
-    PriceService priceService;
+    PricesRestClient pricesRestClient;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     @GetMapping(value = "/assets", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<AssetParams> getAvailableAssets() { //@PageableDefault(1) Pageable pageable
-        HttpHeaders header = new HttpHeaders();
-        header.set("X-CoinAPI-Key", apiKey);
+    public List<AssetParams> getAvailableAssets() {
 
-        return priceService.getAllCrypto();
+
+        return pricesRestClient.getCryptoInformation();
 
     }
 
-    @GetMapping(value = "/{asset_id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<AssetParams> getAvailableAssetsById(@PathVariable String id) {
+    @GetMapping(value = "/assets/{asset_id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<AssetParams[]> getAvailableAssetsById(@PathVariable String asset_id) {
 
-        Optional<AssetParams> assetParams = priceService.getCryptoById(id);
+   //     Optional<AssetParams> assetParams = Optional.ofNullable(pricesRestClient.getCryptoInformationById(ID_ENDPOINT, asset_id).getBody()) ;
 
-        if (assetParams.isPresent()) {
-            return new ResponseEntity<>(assetParams.get(), HttpStatus.OK);
+        HttpHeaders header = new HttpHeaders();
+        header.set("X-CoinAPI-Key", apiKey);
+
+        HttpEntity<String> entity = new HttpEntity<String>(header);
+
+        ResponseEntity<AssetParams[]> responseEntity = restTemplate
+                .exchange("https://rest-sandbox.coinapi.io/v1/assets/"+asset_id, HttpMethod.GET, entity, AssetParams[].class);
+
+        return responseEntity;
+
+/*        if (assetParams.isPresent()) {
+            return new ResponseEntity<>(assetParams.get(),header, HttpStatus.OK);
         } else {
             throw new NoSuchElementException();
-        }
+        }*/
+
+
  /*       ResponseEntity<AssetParams> response = ResponseEntity.ok(priceService.getCryptoById(id));
         priceService.saveCryptoById(response.getBody());*/
 
