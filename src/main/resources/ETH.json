@@ -1,0 +1,18 @@
+[
+  {
+    "asset_id": "ETH",
+    "name": "ETH",
+    "type_is_crypto": 1,
+    "data_quote_start": "2021-11-04T16:34:29.8637020Z",
+    "data_quote_end": "2022-06-22T15:31:02.4670000Z",
+    "data_trade_start": "2021-11-04T16:34:30.1457420Z",
+    "data_trade_end": "2022-06-22T15:25:45.4930000Z",
+    "data_symbols_count": 7104,
+    "volume_1hrs_usd": 24349649918.31,
+    "volume_1day_usd": 379781485505.76,
+    "volume_1mth_usd": 116859835625137.62,
+    "price_usd": 1614.8500075354943165618823299,
+    "data_start": "2021-11-04",
+    "data_end": "2022-06-22"
+  }
+]

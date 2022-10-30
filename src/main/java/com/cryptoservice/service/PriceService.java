@@ -1,14 +1,14 @@
 package com.cryptoservice.service;
 
-import com.cryptoservice.dao.AssetParams;
+import com.cryptoservice.domain.AssetParams;
 import com.cryptoservice.dao.entity.Asset;
+import com.cryptoservice.domain.SupportedCryptoCurrencies;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PriceService {
 
-    List<AssetParams> getAllCrypto();
+   List<SupportedCryptoCurrencies> getAllCrypto();
 
     void saveAllCrypto(List<Asset> assets);
 
@@ -16,6 +16,6 @@ public interface PriceService {
 
     Iterable<Asset> getAllFromRepo();
 
-    AssetParams[] getCryptoById(String ticker);
+    SupportedCryptoCurrencies getCryptoById(String ticker);
 
 }

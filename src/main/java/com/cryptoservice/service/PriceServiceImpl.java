@@ -1,22 +1,19 @@
 package com.cryptoservice.service;
 
 import com.cryptoservice.controller.PricesCoinController;
-import com.cryptoservice.controller.PricesRestClient;
-import com.cryptoservice.dao.AssetParams;
+import com.cryptoservice.domain.AssetParams;
 import com.cryptoservice.dao.AssetRepository;
 import com.cryptoservice.dao.entity.Asset;
+import com.cryptoservice.domain.SpecificCryptoInfo;
+import com.cryptoservice.domain.SupportedCryptoCurrencies;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PriceServiceImpl implements PriceService {
-
-/*    @Autowired
-    PricesRestClient pricesRestClient;*/
 
     @Autowired
     PricesCoinController pricesCoinController;
@@ -34,14 +31,19 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public List<AssetParams> getAllCrypto() {
+    public  List<SupportedCryptoCurrencies> getAllCrypto() {
         return pricesCoinController.getAvailableAssets();
     }
 
     @Override
-    public AssetParams[] getCryptoById(String ticker) {
+    public SpecificCryptoInfo getCryptoById(String ticker) {
 
-        return pricesCoinController.getAvailableAssetsById(ticker).getBody();
+        SpecificCryptoInfo assetParams = pricesCoinController.getAvailableAssetsById(ticker);
+
+
+    //    saveCryptoById(assetParams[0]);
+
+        return assetParams;
     }
 
     @Override

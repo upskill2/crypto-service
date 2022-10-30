@@ -1,31 +1,26 @@
 package com.cryptoservice.dao.entity;
 
-import com.cryptoservice.utils.HashMapConverter;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Map;
 
 @Entity
 @Table(name = "asset")
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Asset {
 
-    @Convert(converter = HashMapConverter.class)
-    private Map<String, Object> customerAttributes;
+/*    @Convert(converter = HashMapConverter.class)
+    private Map<String, Object> customerAttributes;*/
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "Id")
     private int id;
-
 
     @Column(name = "asset_id")
     private String assetId; //"asset_id": "BTC",
