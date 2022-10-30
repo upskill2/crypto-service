@@ -1,19 +1,15 @@
 package com.cryptoservice;
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import javax.annotation.PostConstruct;
 import java.time.Duration;
 
 @SpringBootApplication
@@ -24,9 +20,6 @@ public class CryptoServiceApplication {
         SpringApplication.run(CryptoServiceApplication.class, args);
     }
 
-    @Value("${required.assets.list}")
-    private String apiHost;
-
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
 
@@ -35,5 +28,12 @@ public class CryptoServiceApplication {
                 .setReadTimeout(Duration.ofMillis(3000))
                 .build();
     }
+
+/*    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
+    }*/
 
 }

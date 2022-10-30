@@ -1,18 +1,20 @@
 package com.cryptoservice.domain;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SupportedCryptoCurrencies {
+public class SpecificCryptoWrapper extends SupportedCryptoCurrenciesWrapper {
 
-    private String cryptoName;
+    private double priceUsd;
 
+    private Instant lastUpdatedTime;
 
 }

@@ -4,9 +4,10 @@ import com.cryptoservice.controller.PricesCoinController;
 import com.cryptoservice.domain.AssetParams;
 import com.cryptoservice.dao.AssetRepository;
 import com.cryptoservice.dao.entity.Asset;
-import com.cryptoservice.domain.SpecificCryptoInfo;
-import com.cryptoservice.domain.SupportedCryptoCurrencies;
+import com.cryptoservice.domain.SpecificCryptoWrapper;
+import com.cryptoservice.domain.SupportedCryptoCurrenciesWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,35 +32,27 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public  List<SupportedCryptoCurrencies> getAllCrypto() {
+    public  List<SupportedCryptoCurrenciesWrapper> getAllCrypto() {
         return pricesCoinController.getAvailableAssets();
     }
 
     @Override
-    public SpecificCryptoInfo getCryptoById(String ticker) {
+    public SpecificCryptoWrapper getCryptoById(String ticker) {
 
-        SpecificCryptoInfo assetParams = pricesCoinController.getAvailableAssetsById(ticker);
-
-
-    //    saveCryptoById(assetParams[0]);
-
-        return assetParams;
+        return pricesCoinController.getAvailableAssetsById(ticker);
     }
 
     @Override
-    public void saveAllCrypto(List<Asset> assets) {
+    public void saveAllCrypto() {
 
-        assetRepository.saveAll(assets);
+        pricesCoinController.updateAllAssetsInTheDB();
 
     }
 
     @Override
-    public void saveCryptoById(AssetParams assetParams) {
+    public void saveCryptoById(String id) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        Asset asset = objectMapper.convertValue(assetParams, Asset.class);
-
-        assetRepository.save(asset);
+        pricesCoinController.updateSpecificCryptoInTheDb(id);
     }
 
     @Override
